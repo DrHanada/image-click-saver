@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { font: 14px sans-serif; min-width: 260px; padding: 12px; }
+    label { display: block; margin: 10px 0; }
+    input[type="text"], input[type="number"], select { box-sizing: border-box; width: 100%; }
+    #status { color: #555; }
+  </style>
+</head>
+<body>
+  <label for="language" id="languageLabel">表示言語</label>
+  <select id="language">
+    <option value="ja">日本語</option>
+    <option value="en">English</option>
+  </select>
+
+  <label>
+    <input id="enabled" type="checkbox">
+    <span id="enabledLabel">画像クリック保存モード</span>
+  </label>
+
+  <label for="naming" id="namingLabel">ファイル名</label>
+  <select id="naming">
+    <option value="original" id="originalOption">画像の元の名前</option>
+    <option value="sequence" id="sequenceOption">通し番号</option>
+  </select>
+
+  <div id="sequenceOptions">
+    <label for="prefix" id="prefixLabel">ファイル名の接頭辞</label>
+    <input id="prefix" type="text" maxlength="40">
+
+    <label for="digits" id="digitsLabel">番号の桁数</label>
+    <input id="digits" type="number" min="1" max="8">
+  </div>
+
+  <p id="status" aria-live="polite"></p>
+  <script src="popup.js"></script>
+</body>
+</html>
