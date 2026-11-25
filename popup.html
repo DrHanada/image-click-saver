@@ -7,6 +7,7 @@
     label { display: block; margin: 10px 0; }
     input[type="text"], input[type="number"], select { box-sizing: border-box; width: 100%; }
     #status { color: #555; }
+    #resetSequence { margin-top: 8px; }
   </style>
 </head>
 <body>
@@ -33,6 +34,8 @@
 
     <label for="digits" id="digitsLabel">番号の桁数</label>
     <input id="digits" type="number" min="1" max="8">
+
+    <button id="resetSequence" type="button">通し番号をリセット</button>
   </div>
 
   <p id="status" aria-live="polite"></p>

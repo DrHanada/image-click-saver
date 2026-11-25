@@ -16,6 +16,8 @@ const translations = {
     sequence: "通し番号",
     prefix: "ファイル名の接頭辞",
     digits: "番号の桁数",
+    resetSequence: "通し番号をリセット",
+    sequenceResetStatus: "通し番号を1にリセットしました。",
     enabledStatus: "保存モードはオンです。ページ内の画像をクリックしてください。",
     disabledStatus: "保存モードはオフです。"
   },
@@ -27,6 +29,8 @@ const translations = {
     sequence: "Sequential numbering",
     prefix: "Filename prefix",
     digits: "Number of digits",
+    resetSequence: "Reset sequence number",
+    sequenceResetStatus: "Sequence number has been reset to 1.",
     enabledStatus: "Save mode is on. Click an image on the page to download it.",
     disabledStatus: "Save mode is off."
   }
@@ -38,9 +42,11 @@ const namingInput = document.getElementById("naming");
 const prefixInput = document.getElementById("prefix");
 const digitsInput = document.getElementById("digits");
 const sequenceOptions = document.getElementById("sequenceOptions");
+const resetSequenceButton = document.getElementById("resetSequence");
 const status = document.getElementById("status");
 
 let currentLanguage = "ja";
+let statusMessage = "";
 
 async function loadSettings() {
   const settings = {
@@ -48,7 +54,7 @@ async function loadSettings() {
     ...(await browser.storage.local.get(defaults))
   };
 
-  languageInput.value = settings.language;
+  languageInput.value = settings.language === "en" ? "en" : "ja";
   enabledInput.checked = settings.enabled;
   namingInput.value = settings.naming;
   prefixInput.value = settings.prefix;
@@ -69,11 +75,12 @@ function applyLanguage() {
   document.getElementById("sequenceOption").textContent = text.sequence;
   document.getElementById("prefixLabel").textContent = text.prefix;
   document.getElementById("digitsLabel").textContent = text.digits;
+  resetSequenceButton.textContent = text.resetSequence;
 
   sequenceOptions.hidden = namingInput.value !== "sequence";
-  status.textContent = enabledInput.checked
+  status.textContent = statusMessage || (enabledInput.checked
     ? text.enabledStatus
-    : text.disabledStatus;
+    : text.disabledStatus);
 }
 
 async function saveSettings() {
@@ -85,6 +92,13 @@ async function saveSettings() {
     language: languageInput.value
   });
 
+  statusMessage = "";
+  applyLanguage();
+}
+
+async function resetSequence() {
+  await browser.storage.local.set({ sequence: defaults.sequence });
+  statusMessage = translations[currentLanguage].sequenceResetStatus;
   applyLanguage();
 }
 
@@ -93,5 +107,6 @@ enabledInput.addEventListener("change", saveSettings);
 namingInput.addEventListener("change", saveSettings);
 prefixInput.addEventListener("change", saveSettings);
 digitsInput.addEventListener("change", saveSettings);
+resetSequenceButton.addEventListener("click", resetSequence);
 
 loadSettings();
