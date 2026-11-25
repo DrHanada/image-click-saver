@@ -35,9 +35,11 @@
     <label for="digits" id="digitsLabel">番号の桁数</label>
     <input id="digits" type="number" min="1" max="8">
 
-    <button id="resetSequence" type="button">通し番号をリセット</button>
+    <label for="startNumber" id="startNumberLabel">開始番号</label>
+    <input id="startNumber" type="number" min="1" step="1" value="1">
   </div>
 
+  <button id="resetSequence" type="button">通し番号をリセット</button>
   <p id="status" aria-live="polite"></p>
   <script src="popup.js"></script>
 </body>
